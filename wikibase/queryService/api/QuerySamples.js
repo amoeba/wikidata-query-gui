@@ -100,8 +100,8 @@ wikibase.queryService.api.QuerySamples = ( function ( $ ) {
 	};
 
 	SELF.prototype._parseHTML = function ( html ) {
-		var div = document.createElement( 'div' ),
-			self = this;
+		var div = document.createElement( 'div' );
+
 		div.innerHTML = html;
 
 		// Hard-coded examples to use in place of the ones on WikiData
@@ -111,7 +111,7 @@ wikibase.queryService.api.QuerySamples = ( function ( $ ) {
 				'query': 'PREFIX gl: <http://schema.geolink.org/1.0/base/main#>\n\nSELECT ?name ?s COUNT(?cruise) as ?count\nWHERE {\n\t?s a gl:Vessel .\n\t?s rdfs:label ?name .\n\t?cruise gl:hasVessel ?s \n}\nORDER BY DESC(?count) LIMIT 10',
 				'href': '',
 				'tags': [],
-				'category':''
+				'category': ''
 			}
 		];
 
