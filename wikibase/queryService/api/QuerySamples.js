@@ -103,48 +103,18 @@ wikibase.queryService.api.QuerySamples = ( function ( $ ) {
 		var div = document.createElement( 'div' ),
 			self = this;
 		div.innerHTML = html;
-		// Find all SPARQL Templates
-		var examples = $( div ).find( '[data-mw]' ).map( function() {
-			var $this = $( this ),
-				dataMW = $this.attr( 'data-mw' );
-			if ( !dataMW ) {
-				return;
+
+		// Hard-coded examples to use in place of the ones on WikiData
+		var examples = [
+			{
+				'title': 'Top 10 vessels with the most cruises',
+				'query': 'PREFIX gl: <http://schema.geolink.org/1.0/base/main#>\n\nSELECT ?name ?s COUNT(?cruise) as ?count\nWHERE {\n\t?s a gl:Vessel .\n\t?s rdfs:label ?name .\n\t?cruise gl:hasVessel ?s \n}\nORDER BY DESC(?count) LIMIT 10',
+				'href': '',
+				'tags': [],
+				'category':''
 			}
+		];
 
-			var data = JSON.parse( dataMW ),
-				templateHref,
-				query;
-
-			if ( data.parts && data.parts[0].template ) {
-				templateHref = data.parts[0].template.target.href;
-				if ( templateHref === './Template:SPARQL' || templateHref === './Template:SPARQL2' ) {
-					// SPARQL/SPARQL2 template
-					query = data.parts[0].template.params.query.wt;
-				} else {
-					return null;
-				}
-			} else {
-				return null;
-			}
-			// Fix {{!}} hack
-			query = query.replace( /\{\{!}}/g, '|' );
-
-			// Find preceding title element
-			var titleEl = self._findPrev( $this, 'h2,h3,h4,h5,h6,h7' );
-			if ( !titleEl || !titleEl.length ) {
-				return null;
-			}
-			var title = titleEl.text().trim();
-
-			return {
-				title:    title,
-				query:    query,
-				href:     self._pageUrl + '#' + encodeURIComponent( title.replace( / /g, '_' ) ).replace( /%/g, '.' ),
-				tags:     self._extractTagsFromSPARQL( query ),
-				category: self._findPrevHeader( titleEl ).text().trim()
-			};
-		} ).get();
-		// group by category
 		return _.flatten( _.toArray( _.groupBy( examples, 'category' ) ) );
 	};
 

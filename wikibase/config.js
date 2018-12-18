@@ -61,7 +61,7 @@ var CONFIG = ( function ( window, $ ) {
 		return $.extend( true, {}, configDeploy, {
 			api: {
 				sparql: {
-					uri: 'https://query.wikidata.org/sparql'
+					uri: 'http://data.geolink.org/sparql'
 
 				}
 			},
@@ -72,7 +72,7 @@ var CONFIG = ( function ( window, $ ) {
 					);
 			},
 			brand: {
-				title: 'Localhost'
+				title: 'GeoLink'
 			},
 			location: {
 				root: './',
